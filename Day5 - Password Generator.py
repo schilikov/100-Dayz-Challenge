@@ -15,34 +15,34 @@ nr_numbers = int(input("How many numbers would you like?\n"))
 # Not randomised order of password chars.
 # e.g. 4 letter, 2 symbol, 2 number = JduE&!91
 
-password = ""
+pass_ordered = ""
 
 for let in range(0, nr_letters):
-    password += random.choice(letters)
+    pass_ordered += random.choice(letters)
 
 for sym in range(0, nr_symbols):
-    password += random.choice(symbols)
+    pass_ordered += random.choice(symbols)
 
 for num in range(0, nr_numbers):
-    password += random.choice(numbers)
+    pass_ordered += random.choice(numbers)
 
-print(f"This is your random password in order: {password}")
+print(f"This is your random password in order: {pass_ordered}")
 
 # Randomised order of password chars.
 # e.g. 4 letter, 2 symbol, 2 number = g^2jk8&P
 
-password = []
+pass_not_ordered = []
 
 for let in range(0, nr_letters):
-    password.append(random.choice(letters))
+    pass_not_ordered.append(random.choice(letters))
 
 for sym in range(0, nr_symbols):
-    password.append(random.choice(symbols))
+    pass_not_ordered.append(random.choice(symbols))
 
 for num in range(0, nr_numbers):
-    password.append(random.choice(numbers))
+    pass_not_ordered.append(random.choice(numbers))
 
-random.shuffle(password)
-new_pass = ''.join(password)
+random.shuffle(pass_not_ordered)
+new_pass = ''.join(pass_not_ordered)
 
 print(f"This is your random password not in order: {new_pass}")
