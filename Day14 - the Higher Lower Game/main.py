@@ -1,45 +1,70 @@
+from replit import clear
+
 from ART import logo, vs
 from game_data import data
 import random
 
-print(logo)
+
+def pick_random():
+    """Get data from random account"""
+    return random.choice(data)
 
 
-def pick_random(game_data):
-    list_length = len(game_data)
-    list_item = random.randint(0, list_length - 1)
-    data_item = game_data[list_item]
+def format_data(account):
+    """Format account into printable format: name, description and country"""
+    name = account['name']
+    description = account['description']
+    country = account['country']
 
-    return data_item
-
-
-def print_the_picks(first_choice, second_choice):
     vowels = ["a", "e", "i", "o", "u", "y"]
-    if first_choice['description'][0].lower() in vowels:
+    if account['description'][0].lower() in vowels:
         article = "an"
     else:
         article = "a"
 
-    print(f"Compare A: {first_choice['name']}, {article} {first_choice['description']}, from {first_choice['country']}.")
-
-    print(vs)
-
-    print(f"Against B: {second_choice['name']}, {article} {second_choice['description']}, from {second_choice['country']}.")
+    return f"{name}, {article} {description}, from {country}"
 
 
-# def check_the_winner(first_pick, second_pick):
+def check_answer(guess, a_followers, b_followers):
+    """Checks followers against user's guess
+      and returns True if they got it right.
+      Or False if they got it wrong."""
+    if a_followers > b_followers:
+        return guess == "a"
+    else:
+        return guess == "b"
 
 
-total_points = 0
-game_end = False
+def game():
+    print(logo)
+    score = 0
+    game_end = False
+    second_pick = pick_random()
 
-first_pick = pick_random(data)
-second_pick = pick_random(data)
+    while not game_end:
+        first_pick = second_pick
+        second_pick = pick_random()
 
-while first_pick == second_pick:
-    second_pick = pick_random(data)
+        while first_pick == second_pick:
+            second_pick = pick_random()
 
-print_the_picks(first_pick, second_pick)
+        print(f"Compare A: {format_data(first_pick)}.")
+        print(vs)
+        print(f"Against B: {format_data(second_pick)}.")
 
-pick = input("Who has more followers? Type 'A' or 'B':").lower()
+        guess = input("Who has more followers? Type 'A' or 'B': ").lower()
+        a_follower_count = first_pick["follower_count"]
+        b_follower_count = second_pick["follower_count"]
+        is_correct = check_answer(guess, a_follower_count, b_follower_count)
 
+        clear()
+        print(logo)
+        if is_correct:
+            score += 1
+            print(f"You're right! Current score: {score}.")
+        else:
+            game_end = True
+            print(f"Sorry, that's wrong. Final score: {score}")
+
+
+game()
